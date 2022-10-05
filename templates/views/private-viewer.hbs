@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="robots" content="noindex">
+        <title>Private Draft</title>
+        <link rel="stylesheet" href="/css/styles.css">
+    </head>
+    <body>
+        <div class="main-content">
+            {{>header}}
+            <div id="auth-area">
+                <form id="auth-form">
+                    <p>Please enter the password to view this draft.</p>
+                    <input id="auth-password" type="password" />
+                    <input type="submit" value="Submit" />
+                </form>
+            </div>
+            <div id="draft-area">
+                <h1 id="draft-title"></h1>
+                <h2 id="draft-author"></h2>
+                <div id="draft-viewer"></div>
+            </div>
+        </div>        
+        {{>footer}}
+
+        <script src="/js/viewer.js"></script>
+        <script src="/js/private-viewer.js"></script>
+    </body>
+</html>

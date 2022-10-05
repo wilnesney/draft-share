@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{title}}</title>
+        <link rel="stylesheet" href="/css/styles.css">
+        <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="main-content">
+            {{>header}}
+            <form id="draft-form">
+                <input type="submit" value="Submit Draft" />
+                <br />
+                <label for="draft-title">Title</label>
+                <input id="draft-title" type="text" />
+                <em>(optional)</em>
+                <br />
+                <label for="draft-author">By</label>
+                <input id="draft-author" type="text" />
+                <em>(optional)</em>
+                <br />
+                <label for="draft-password">Password</label>
+                <input id="draft-password" type="password" />
+                <em>(optional)</em>
+                <br />
+                <em>* Remember! If you password-protect your draft, 
+                    you'll need to share the password with everyone you want to view your work, 
+                    so don't use a password you use elsewhere!
+                </em>
+                <br />
+                <!-- TODO: Radio buttons for TTL -->
+                <fieldset>
+                    <legend>Amount of time draft should be available</legend>
+                    <div>
+                        <input type="radio" id="hours-1" name="draft-hours" value="1">
+                        <label for="hours-1">1 Hour</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="hours-3" name="draft-hours" value="3" checked>
+                        <label for="hours-3">3 Hours</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="hours-5" name="draft-hours" value="5">
+                        <label for="hours-5">5 Hours</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="hours-12" name="draft-hours" value="12">
+                        <label for="hours-12">12 Hours</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="hours-24" name="draft-hours" value="24">
+                        <label for="hours-24">24 Hours</label>
+                    </div>
+                </fieldset>
+                <br />
+                <div id="draft-editor"></div>
+            </form>
+        </div>        
+        {{>footer}}
+
+        <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+        <script src="/js/editor.js"></script>
+    </body>
+</html>
