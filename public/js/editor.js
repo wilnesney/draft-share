@@ -4,7 +4,7 @@ const quillEditor = new Quill('#draft-editor', {
             ['bold', 'italic', 'underline'],
         ],
     },
-    placeholder: 'Add your draft text here...',
+    placeholder: 'Paste your draft here...',
     theme: 'snow',
 });
 

@@ -1,3 +1,59 @@
+body {
+    font-family: 'Merriweather', serif;
+}
+
+/* Navigation Bar */
+
+.navbar {
+    margin-bottom: 2rem;
+    border-bottom:#9DF1F7 1px solid;
+}
+
+.navbar-brand {
+    font-size: 2rem;
+    font-weight: 900;
+}
+
+.nav-item {
+    padding: 0 16px;
+}
+
+.nav-link {
+    font-size: 1.2rem;
+}
+
+/* Editing Form */
+
 #draft-editor p, #draft-viewer p {
-    text-indent: 50px
+    text-indent: 50px;
+}
+
+.ql-container {
+    font-family: 'Merriweather', serif;
+    text-indent: 50px;
+}
+
+.ql-toolbar.ql-snow, .ql-container.ql-snow, input {
+    border-bottom: 1px solid #9DF1F7;
+    border-top: 1px solid #9DF1F7;
+    border-left: 1px solid #F7B3AB;
+    border-right: 1px solid #eee;
+}
+
+.editor-container {
+    padding-bottom: 43px;  /* Account for Quill overlap issue */
+    min-height: 25rem;
+}
+
+legend {
+    font-size: 1.25rem;
+}
+
+.ui-note {
+    color: #888;
+    font-size: 0.8rem;
+}
+
+#submit-button {
+    margin-top: 2rem;
 }

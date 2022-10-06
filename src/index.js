@@ -100,7 +100,8 @@ app.post('/api/private/:id', async (req, res) => {
 
 app.get('/', (req, res) => {
     res.render('editor', {
-        title: 'Home | Draft Share'
+        siteName: 'Draft Share',
+        title: 'Home',
     })
 })
 
@@ -115,7 +116,10 @@ app.get('/public/:id', async (req, res) => {
             return res.status(404).send();
         }
 
-        res.render('public-viewer', draftToResponseObject(draft));
+        res.render('public-viewer', {
+            ...draftToResponseObject(draft),
+            siteName: 'Draft Share',
+        });
     } catch (e) {
         console.error(e);
         res.status(500).send();
@@ -126,12 +130,15 @@ app.get('/public/:id', async (req, res) => {
 // Users must enter a password and make a fetch request to the /api for private
 // to get the data.
 app.get('/private/:id', (req, res) => {
-    res.render('private-viewer', {});
+    res.render('private-viewer', {
+        siteName: 'Draft Share',
+    });
 });
 
 
 app.get('*', (req, res) => {
     res.render('404', {
+        siteName: 'Draft Share',
         title: 'Oh, no!',
         errorText: `Sorry! We couldn't find that page. The page you're looking for may have expired, or your password may be incorrect.`,
         name: 'Dave Turka',
