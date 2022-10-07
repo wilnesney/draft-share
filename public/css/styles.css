@@ -1,3 +1,5 @@
+/* #AB847E, #F7B4AB, #9EF1F7, #AB915C, #F7D692 */
+
 body {
     font-family: 'Merriweather', serif;
 }
@@ -5,8 +7,8 @@ body {
 /* Navigation Bar */
 
 .navbar {
-    margin-bottom: 2rem;
     border-bottom:#9DF1F7 1px solid;
+    margin-bottom: 2rem;
 }
 
 .navbar-brand {
@@ -22,15 +24,17 @@ body {
     font-size: 1.2rem;
 }
 
-/* Editing Form */
+/* Editing Form & Viewer */
 
-#draft-editor p, #draft-viewer p {
+.ql-container, #draft-editor p, #draft-viewer p {
+    font-family: 'Merriweather', serif;
+    line-height: 1.75;
     text-indent: 50px;
 }
 
-.ql-container {
-    font-family: 'Merriweather', serif;
-    text-indent: 50px;
+#draft-viewer p {
+    margin: 0 auto;
+    max-width: 34em;
 }
 
 .ql-toolbar.ql-snow, .ql-container.ql-snow, input {
@@ -41,8 +45,8 @@ body {
 }
 
 .editor-container {
-    padding-bottom: 43px;  /* Account for Quill overlap issue */
     min-height: 25rem;
+    padding-bottom: 43px;  /* Account for Quill overlap issue */
 }
 
 legend {
@@ -52,8 +56,13 @@ legend {
 .ui-note {
     color: #888;
     font-size: 0.8rem;
+    font-style: italic;
 }
 
 #submit-button {
     margin-top: 2rem;
+}
+
+#title, #author {
+    text-align: center;
 }

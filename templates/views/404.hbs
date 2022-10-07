@@ -2,13 +2,21 @@
 <html>
     <head>
         <title>{{title}}</title>
-        <link rel="stylesheet" href="/css/styles.css">
+        {{>commonHead}}
     </head>
     <body>
         <div class="main-content">
             {{>header}}
-            <p>{{errorText}}</p>
+            <div class="row">
+                    <div class="col"></div>
+                    <div class="col-lg-6 col-md-8">
+                        <p>{{errorText}}</p>
+                    </div>
+                    <div class="col"></div>
+                </div>
         </div>
         {{>footer}}
+
+        {{>commonScripts}}
     </body>
 </html>

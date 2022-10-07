@@ -22,11 +22,11 @@ authForm.addEventListener('submit', e => {
     .then(res => res.json())
     .then(data => {
         if (data.title) {
-            document.getElementById('draft-title').textContent = data.title;
+            document.getElementById('title').textContent = data.title;
             document.title = `${data.title} | Draft Share`;
         }
         if (data.author) {
-            document.getElementById('draft-author').textContent = `by ${data.author}`;
+            document.getElementById('author').textContent = data.author;
         }
         document.getElementById('draft-viewer').innerHTML = data.body;
     })
