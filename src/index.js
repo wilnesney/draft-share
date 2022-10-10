@@ -105,6 +105,8 @@ app.get('/', (req, res) => {
     res.render('editor', {
         siteName: 'Draft Share',
         title: 'Home',
+        name: 'Dave Turka',
+        currentYear: new Date().getFullYear(),
     })
 })
 
@@ -121,12 +123,16 @@ app.get('/public/:id', async (req, res) => {
                 title: 'Oh, no!',
                 errorText: `Sorry! We couldn't find that page. The page you're looking for may have expired or the URL may be incorrect.`,
                 name: 'Dave Turka',
+                name: 'Dave Turka',
+        currentYear: new Date().getFullYear(),
             })
         }
 
         res.render('public-viewer', {
             ...draftToResponseObject(draft),
             siteName: 'Draft Share',
+            name: 'Dave Turka',
+            currentYear: new Date().getFullYear(),
         });
     } catch (e) {
         console.error(e);
@@ -140,6 +146,8 @@ app.get('/public/:id', async (req, res) => {
 app.get('/private/:id', (req, res) => {
     res.render('private-viewer', {
         siteName: 'Draft Share',
+        name: 'Dave Turka',
+        currentYear: new Date().getFullYear(),
     });
 });
 
@@ -150,6 +158,7 @@ app.get('*', (req, res) => {
         title: 'Oh, no!',
         errorText: `Sorry! We couldn't find that page. The page you're looking for may have expired, the URL may be incorrect, or your password may be wrong.`,
         name: 'Dave Turka',
+        currentYear: new Date().getFullYear(),
     })
 })
 

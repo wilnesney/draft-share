@@ -2,10 +2,25 @@
 
 body {
     font-family: 'Merriweather', serif;
+
+    display: flex;  /* Enable flexbox */
+    flex-direction: column; /* Default is row */
+    min-height: 100vh;  /* 100% of Viewport Height */
+}
+
+footer {
+    text-align: center;
 }
 
 input[type="text"], input[type="password"] {
     width: 100%;
+}
+
+/* The following (along with activating flexbox) is used to put 
+    everything but our footer in something that takes up all the page space,
+    so our footer sticks to the bottom of the page. */
+.main-content {
+    flex-grow: 1;
 }
 
 /* Navigation Bar */
@@ -36,7 +51,7 @@ input[type="text"], input[type="password"] {
     text-indent: 50px;
 }
 
-#draft-viewer p {
+.body-text p, #draft-viewer p {
     margin: 0 auto;
     max-width: 34em;
 }

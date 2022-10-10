@@ -6,63 +6,65 @@
         {{>commonHead}}
     </head>
     <body>
-        {{>header}}
-        <div class="container-fluid">
-            <form id="draft-form">
-                <div class="row">
-                    <div class="col-lg-3">
-                        <label for="draft-title">Title <span class="ui-note">(optional)</span></label>
-                        <br />
-                        <input id="draft-title" placeholder="Working Title" type="text" />
-                        <br />
-                        <label for="draft-author">By <span class="ui-note">(optional)</span></label>
-                        <br />
-                        <input id="draft-author" placeholder="A. Writer" type="text" />
-                        <br />
-                        <label for="draft-password">Password <span class="ui-note">(optional)</span></label>
-                        <br />
-                        <input id="draft-password" placeholder="ShareablePassword123" type="password" />
-                        <br />
-                        <span class="ui-note">Don't use a password you use elsewhere!
-                            <br /> 
-                            If you password-protect your draft, 
-                            you'll need to share the password with everyone you want to view your work.
+        <div class="main-content">
+            {{>header}}
+            <div class="container-fluid">
+                <form id="draft-form">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label for="draft-title">Title <span class="ui-note">(optional)</span></label>
                             <br />
-                            If you don't use a password, anyone with the URL can view your work.
-                        </span>
-                    </div>
-                    <div class="col-lg-6 editor-container">
-                        <div id="draft-editor"></div>
-                    </div>
-                    <div class="col-lg-3">
-                        <fieldset>
-                            <legend>Draft lifetime</legend>
-                            <div>
-                                <input type="radio" id="hours-3" name="draft-hours" value="3" checked>
-                                <label for="hours-3">3 Hours</label>
-                            </div>
-                            <div>
-                                <input type="radio" id="hours-8" name="draft-hours" value="8">
-                                <label for="hours-8">8 Hours</label>
-                            </div>
-                            <div>
-                                <input type="radio" id="hours-12" name="draft-hours" value="12">
-                                <label for="hours-12">12 Hours</label>
-                            </div>
-                        </fieldset>                     
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col"></div>
-                    <div class="col-lg-6">
-                        <div class="d-grid gap-2">
-                            <button id="draft-submit-button" type="submit" class="btn btn-lg btn-secondary">Submit Draft</button>
+                            <input id="draft-title" placeholder="Working Title" type="text" />
+                            <br />
+                            <label for="draft-author">By <span class="ui-note">(optional)</span></label>
+                            <br />
+                            <input id="draft-author" placeholder="A. Writer" type="text" />
+                            <br />
+                            <label for="draft-password">Password <span class="ui-note">(optional)</span></label>
+                            <br />
+                            <input id="draft-password" placeholder="ShareablePassword123" type="password" />
+                            <br />
+                            <span class="ui-note">Don't use a password you use elsewhere!
+                                <br /> 
+                                If you password-protect your draft, 
+                                you'll need to share the password with everyone you want to view your work.
+                                <br />
+                                If you don't use a password, anyone with the URL can view your work.
+                            </span>
+                        </div>
+                        <div class="col-lg-6 editor-container">
+                            <div id="draft-editor"></div>
+                        </div>
+                        <div class="col-lg-3">
+                            <fieldset>
+                                <legend>Draft lifetime</legend>
+                                <div>
+                                    <input type="radio" id="hours-3" name="draft-hours" value="3" checked>
+                                    <label for="hours-3">3 Hours</label>
+                                </div>
+                                <div>
+                                    <input type="radio" id="hours-8" name="draft-hours" value="8">
+                                    <label for="hours-8">8 Hours</label>
+                                </div>
+                                <div>
+                                    <input type="radio" id="hours-12" name="draft-hours" value="12">
+                                    <label for="hours-12">12 Hours</label>
+                                </div>
+                            </fieldset>                     
                         </div>
                     </div>
-                    <div class="col"></div>
-                </div>
-            </form>
-        </div>        
+                    <div class="row">
+                        <div class="col"></div>
+                        <div class="col-lg-6">
+                            <div class="d-grid gap-2">
+                                <button id="draft-submit-button" type="submit" class="btn btn-lg btn-secondary">Submit Draft</button>
+                            </div>
+                        </div>
+                        <div class="col"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
         {{>footer}}
 
         {{>modal}}
