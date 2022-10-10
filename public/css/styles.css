@@ -64,7 +64,7 @@ input[type="text"], input[type="password"] {
 }
 
 .editor-container {
-    min-height: 25rem;
+    height: 25rem;
     padding-bottom: 43px;  /* Account for Quill overlap issue */
 }
 
