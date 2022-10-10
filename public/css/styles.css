@@ -4,6 +4,10 @@ body {
     font-family: 'Merriweather', serif;
 }
 
+input[type="text"], input[type="password"] {
+    width: 100%;
+}
+
 /* Navigation Bar */
 
 .navbar {

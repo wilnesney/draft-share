@@ -1,6 +1,19 @@
 const authForm = document.getElementById('auth-form');
 const authPassword = document.getElementById('auth-password');
 
+// Modal
+const options = {};
+const modal = new bootstrap.Modal('#modal', options);
+const modalTitle = document.getElementById('modal-title');
+const modalBody = document.getElementById('modal-body');
+
+modal.show();
+
+const onCancel = () => {
+    console.log('onCancel() called')
+    window.location.assign(new URL('/', window.location.href)); // Keep this page in history
+}
+
 authForm.addEventListener('submit', e => {
     console.log('submit handler')
     e.preventDefault();
@@ -31,7 +44,8 @@ authForm.addEventListener('submit', e => {
         document.getElementById('draft-viewer').innerHTML = data.body;
     })
     .catch(err => {
-        alert(err);
+        // Don't keep this page in history
+        window.location.replace(new URL('/not-found', window.location.href));
     })
 
 })

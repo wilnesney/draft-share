@@ -15,6 +15,8 @@ const publicDirectoryPath = path.join(__dirname, '../public');
 const viewsPath = path.join(__dirname, '../templates/views'); // Default is /views
 const partialsPath = path.join(__dirname, '../templates/partials');
 
+//TODO: Gzip
+
 // Set up handlebars engine and views location (for dynamic content/templates).
 app.set('view engine', 'hbs');
 app.set('views', viewsPath);
@@ -52,8 +54,9 @@ const draftToResponseObject = draft => {
 // API
 app.post('/api/draft', async (req, res) => {
     try {
-        if (!req.body.hours || req.body.hours < 1 || req.body.hours > 24) {
-            return res.status(400).send();
+        if (!req.body.hours || req.body.hours < 1 || req.body.hours > 12) {
+
+            return res.status(400).send({'error': 'Your time was outside the allowed range.'});
         }
 
         const expireAt = new Date();
@@ -75,7 +78,7 @@ app.post('/api/draft', async (req, res) => {
         res.status(201).send({ path });
     } catch (e) {
         console.log(e.message);
-        res.status(500).send();
+        res.status(500).send({'error': 'Sorry! Something went wrong. Please try again later.'});
     }
 });
 
@@ -113,7 +116,12 @@ app.get('/public/:id', async (req, res) => {
         const draft = await Draft.findById(_id);
         // This is the public area--if there's an associated password, don't allow access!
         if (!draft || draft.password) {
-            return res.status(404).send();
+            return res.status(404).render('404', {
+                siteName: 'Draft Share',
+                title: 'Oh, no!',
+                errorText: `Sorry! We couldn't find that page. The page you're looking for may have expired or the URL may be incorrect.`,
+                name: 'Dave Turka',
+            })
         }
 
         res.render('public-viewer', {
@@ -140,7 +148,7 @@ app.get('*', (req, res) => {
     res.render('404', {
         siteName: 'Draft Share',
         title: 'Oh, no!',
-        errorText: `Sorry! We couldn't find that page. The page you're looking for may have expired, or your password may be incorrect.`,
+        errorText: `Sorry! We couldn't find that page. The page you're looking for may have expired, the URL may be incorrect, or your password may be wrong.`,
         name: 'Dave Turka',
     })
 })

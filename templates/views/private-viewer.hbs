@@ -1,19 +1,35 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Private Draft</title>
+        <title>{{siteName}}</title>
         {{>commonHead}}
     </head>
     <body>
         <div class="main-content">
             {{>header}}
-            <div id="auth-area">
-                <form id="auth-form">
-                    <p>Please enter the password to view this draft.</p>
-                    <input id="auth-password" type="password" />
-                    <input type="submit" value="Submit" />
-                </form>
+
+            <div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal-title">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modal-title">Password</h1>
+                    </div>
+                    <div class="modal-body" id="modal-body">
+                        <div id="auth-area">
+                            <form id="auth-form">
+                                <p>Please enter the password to view this draft.</p>
+                                <input id="auth-password" type="password" />
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-secondary" form="auth-form" value="Submit" data-bs-dismiss="modal" />
+                    </div>
+                    </div>
+                </div>
             </div>
+
+            
             <div id="draft-area">
                 <h1 id="title"></h1>
                 <h2 id="author"></h2>
