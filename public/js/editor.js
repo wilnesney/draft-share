@@ -8,6 +8,8 @@ const quillEditor = new Quill('#draft-editor', {
     theme: 'snow',
 });
 
+quillEditor.focus();
+
 // Form
 const draftForm = document.getElementById('draft-form');
 const draftAuthor = document.getElementById('draft-author');
