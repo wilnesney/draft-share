@@ -151,6 +151,26 @@ app.get('/private/:id', (req, res) => {
     });
 });
 
+app.get('/about', (req, res) => {
+    res.render('about', {
+        siteName: 'Draft Share',
+        title: 'About',
+        name: 'Dave Turka',
+        currentYear: new Date().getFullYear(),
+    });
+});
+
+/* Consider wiring this back up some day if there's appropriate content.
+app.get('/help', (req, res) => {
+    res.render('help', {
+        siteName: 'Draft Share',
+        title: 'Help',
+        name: 'Dave Turka',
+        currentYear: new Date().getFullYear(),
+    });
+});
+*/
+
 
 app.get('*', (req, res) => {
     res.render('404', {
