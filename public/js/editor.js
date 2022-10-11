@@ -17,6 +17,8 @@ const draftTitle = document.getElementById('draft-title');
 const draftPassword = document.getElementById('draft-password');
 const draftSubmitButton = document.getElementById('draft-submit-button');
 
+const draftEditor = document.getElementById('draft-editor');
+
 // Modal
 const options = {};
 const modal = new bootstrap.Modal('#modal', options);
@@ -31,11 +33,12 @@ draftForm.addEventListener('submit', e => {
     
 
     const draftHours = document.querySelector('input[name="draft-hours"]:checked');
+    const hours = parseInt(draftHours.value);
 
     const draftData = {
         title: draftTitle.value,
         author: draftAuthor.value,
-        hours: parseInt(draftHours.value),
+        hours,
         password: draftPassword.value,
         body: quillEditor.getContents(),
     };
@@ -51,7 +54,7 @@ draftForm.addEventListener('submit', e => {
             throw new Error(data.error);
         }
         modalTitle.textContent = 'Success!';
-        modalBody.innerHTML = `Your draft is ready at <a target="_blank" href="${data.path}">${data.path}</a>`;
+        modalBody.innerHTML = `Your draft is ready at <br /><a target="_blank" href="${data.path}">${data.path}</a><br/>It will expire in ${hours} hours.`;
     })
     .catch(err => {
         modalTitle.textContent = 'Something went wrong :(';

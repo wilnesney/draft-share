@@ -12,52 +12,59 @@
                 <form id="draft-form">
                     <div class="row">
                         <div class="col-lg-3">
-                            <label for="draft-title">Title <span class="ui-note">(optional)</span></label>
-                            <br />
-                            <input id="draft-title" placeholder="Working Title" type="text" />
-                            <br />
-                            <label for="draft-author">By <span class="ui-note">(optional)</span></label>
-                            <br />
-                            <input id="draft-author" placeholder="A. Writer" type="text" />
-                            <br />
-                            <label for="draft-password">Password <span class="ui-note">(optional)</span></label>
-                            <br />
-                            <input id="draft-password" placeholder="ShareablePassword123" type="password" />
-                            <br />
-                            <span class="ui-note">Don't use a password you use elsewhere!
-                                <br /> 
-                                If you password-protect your draft, 
-                                you'll need to share the password with everyone you want to view your work.
+                            <div class="input-unit">
+                                <label for="draft-title">Title <span class="ui-note">(optional)</span></label>
                                 <br />
-                                If you don't use a password, anyone with the URL can view your work.
-                            </span>
+                                <input id="draft-title" placeholder="Your Title Here..." type="text" autocomplete="off" />
+                                <br />
+                            </div>
+                            <div class="input-unit">
+                                <label for="draft-author">By <span class="ui-note">(optional)</span></label>
+                                <br />
+                                <input id="draft-author" placeholder="Your Name Here..." type="text" autocomplete="off" />
+                                <br />
+                            </div>
+                            
                         </div>
-                        <div class="col-lg-6 editor-container">
+                        <div class="input-unit col-lg-6 editor-container">
+                            <span>Draft Text</span>
                             <div id="draft-editor"></div>
                         </div>
                         <div class="col-lg-3">
-                            <fieldset>
-                                <legend>Draft lifetime</legend>
-                                <div>
-                                    <input type="radio" id="hours-3" name="draft-hours" value="3" checked>
-                                    <label for="hours-3">3 Hours</label>
-                                </div>
-                                <div>
-                                    <input type="radio" id="hours-8" name="draft-hours" value="8">
-                                    <label for="hours-8">8 Hours</label>
-                                </div>
-                                <div>
-                                    <input type="radio" id="hours-12" name="draft-hours" value="12">
-                                    <label for="hours-12">12 Hours</label>
-                                </div>
-                            </fieldset>                     
+                            <div class="input-unit">
+                                <label for="draft-password">Password to View <span class="ui-note">(optional)</span></label>
+                                <br />
+                                <input id="draft-password" placeholder="ShareablePassword123" type="password" />
+                                <br />
+                            </div>
+                            <p class="ui-note">
+                                If you password-protect your draft, 
+                                you'll need to share the password with everyone you want to view your work.
+                                <br />
+                                Don't reuse a password you use elsewhere!
+                            </p>
                         </div>
                     </div>
+                    
                     <div class="row">
                         <div class="col"></div>
                         <div class="col-lg-6">
                             <div class="d-grid gap-2">
-                                <button id="draft-submit-button" type="submit" class="btn btn-lg btn-secondary">Submit Draft</button>
+                                <fieldset class="input-unit">
+                                <span>Draft Page Lifetime</span>
+                                <br />
+                                <div class="btn-group" role="group" aria-label="Draft lifetime radio toggle button group">
+                                        <input class="btn-check" type="radio" id="hours-3" name="draft-hours" value="3" autocomplete="off" checked>
+                                        <label class="btn btn-outline-secondary" for="hours-3">3 Hours</label>
+
+                                        <input class="btn-check" type="radio" id="hours-8" name="draft-hours" value="8" autocomplete="off">
+                                        <label class="btn btn-outline-secondary" for="hours-8">8 Hours</label>
+
+                                        <input class="btn-check" type="radio" id="hours-12" name="draft-hours" value="12" autocomplete="off">
+                                        <label class="btn btn-outline-secondary" for="hours-12">12 Hours</label>
+                                </div>
+                            </fieldset>
+                                <button id="draft-submit-button" type="submit" class="btn btn-lg btn-secondary">Create Draft Webpage</button>
                             </div>
                         </div>
                         <div class="col"></div>

@@ -1,5 +1,11 @@
 /* #AB847E, #F7B4AB, #9EF1F7, #AB915C, #F7D692 */
 
+:root {
+    --line-horizontal-color: #9DF1F7;
+    --line-vertical-left-color: #F7B3AB;
+    --line-vertical-right-color: #eee;
+}
+
 body {
     font-family: 'Merriweather', serif;
 
@@ -10,6 +16,12 @@ body {
 
 footer {
     text-align: center;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid var(--line-horizontal-color);
+    opacity: 1;
 }
 
 input[type="text"], input[type="password"] {
@@ -26,7 +38,7 @@ input[type="text"], input[type="password"] {
 /* Navigation Bar */
 
 .navbar {
-    border-bottom:#9DF1F7 1px solid;
+    border-bottom: var(--line-horizontal-color) 1px solid;
     margin-bottom: 2rem;
 }
 
@@ -57,14 +69,15 @@ input[type="text"], input[type="password"] {
 }
 
 .ql-toolbar.ql-snow, .ql-container.ql-snow, input {
-    border-bottom: 1px solid #9DF1F7;
-    border-top: 1px solid #9DF1F7;
-    border-left: 1px solid #F7B3AB;
-    border-right: 1px solid #eee;
+    border-bottom: 1px solid var(--line-horizontal-color);
+    border-top: 1px solid var(--line-horizontal-color);
+    border-left: 1px solid var(--line-vertical-left-color);
+    border-right: 1px solid var(--line-vertical-right-color);
 }
 
 .editor-container {
     height: 25rem;
+    margin-bottom: 2rem;
     padding-bottom: 43px;  /* Account for Quill overlap issue */
 }
 
@@ -76,6 +89,7 @@ legend {
     color: #888;
     font-size: 0.8rem;
     font-style: italic;
+    font-weight: normal;
 }
 
 #submit-button {
@@ -84,4 +98,13 @@ legend {
 
 #title, #author {
     text-align: center;
+}
+
+.input-unit {
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.input-unit > label, .input-unit > span {
+    font-weight: bold;
 }
