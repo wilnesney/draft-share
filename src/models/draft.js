@@ -20,11 +20,14 @@ const draftSchema = new mongoose.Schema({
         validate(value) {
             const allowedAttributes = ['bold', 'italic', 'underline'];
             value.ops.forEach(op => {
+                if (typeof(op.insert) !== 'string') {
+                    throw new Error('Invalid Quill Delta op');
+                }
                 if (op.attributes) {
                     const attrs = Object.keys(op.attributes);
                     attrs.forEach(attr => {
                         if (!allowedAttributes.includes(attr)) {
-                            throw new Error('Invalid attribute');   //TODO: Test! And restrict what Quill will accept!
+                            throw new Error('Invalid attribute');
                         }
                     })
                 }
