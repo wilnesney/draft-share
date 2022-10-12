@@ -90,7 +90,8 @@ app.post('/api/private/:id', async (req, res) => {
     try {
         const draft = await Draft.findByCredentials(_id, password);
         if (!draft) {
-            return res.status(404).send();
+            // Return 404 after 5-6 seconds
+            return setTimeout(() => res.status(404).send(), (5 + Math.random()) * 1000 )
         }
         res.send(draftToResponseObject(draft));
     } catch (e) {
