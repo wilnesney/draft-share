@@ -72,7 +72,7 @@ app.post('/api/draft', async (req, res) => {
 
         await draft.save();
 
-        const portString = (process.env.PORT !== 80 && process.env.PORT !== 443) ? `:${process.env.PORT}` : '';
+        const portString = process.env.IS_DEV ? `:${process.env.PORT}` : '';
         const path = `${req.protocol}://${req.hostname}${portString}/${draft.password ? 'private' : 'public'}/${draft._id}`;
 
         res.status(201).send({ path });
