@@ -1,5 +1,25 @@
 const Delta = Quill.import('delta');
 
+const maxBodyChars = 65_000;
+
+// Form
+const draftForm = document.getElementById('draft-form');
+const draftAuthor = document.getElementById('draft-author');
+const draftTitle = document.getElementById('draft-title');
+const draftPassword = document.getElementById('draft-password');
+const draftSubmitButton = document.getElementById('draft-submit-button');
+
+const draftEditor = document.getElementById('draft-editor');
+
+// Modal
+const options = {};
+const modal = new bootstrap.Modal('#modal', options);
+const modalTitle = document.getElementById('modal-title');
+const modalBody = document.getElementById('modal-body');
+
+// Other UI
+const bodyErrorText = document.getElementById('body-error-text');
+
 const quill = new Quill('#draft-editor', {
     modules: {
         toolbar: [
@@ -9,6 +29,8 @@ const quill = new Quill('#draft-editor', {
     placeholder: 'Paste your draft here...',
     theme: 'snow',
 });
+
+quill.focus();
 
 // Restrict to only text insertions and allowed attributes
 quill.clipboard.addMatcher(Node.ELEMENT_NODE, (node, delta) => {
@@ -28,28 +50,36 @@ quill.clipboard.addMatcher(Node.ELEMENT_NODE, (node, delta) => {
     return new Delta(ops)
 });
 
-quill.focus();
+// If the value returned by this is positive, then the body text is too long.
+const getNumCharsOverLimit = () => {
+    const text = quill.getText();
+    const textLen = text.length - 1;    // Account for the newline character that's always there
+    return textLen - maxBodyChars;
+}
 
-// Form
-const draftForm = document.getElementById('draft-form');
-const draftAuthor = document.getElementById('draft-author');
-const draftTitle = document.getElementById('draft-title');
-const draftPassword = document.getElementById('draft-password');
-const draftSubmitButton = document.getElementById('draft-submit-button');
-
-const draftEditor = document.getElementById('draft-editor');
-
-// Modal
-const options = {};
-const modal = new bootstrap.Modal('#modal', options);
-const modalTitle = document.getElementById('modal-title');
-const modalBody = document.getElementById('modal-body');
+// Let user know if they go over the text length limit.
+quill.on('text-change', (delta, oldDelta, source) => {
+    const numCharsOverLimit = getNumCharsOverLimit();
+    if (numCharsOverLimit > 0) {
+        bodyErrorText.textContent = `Limit is ${maxBodyChars} characters. You are ${numCharsOverLimit} character${numCharsOverLimit > 1 ? 's' : ''} over the limit.`;
+    } else {
+        bodyErrorText.innerHTML = '';
+    }
+});
 
 draftForm.addEventListener('submit', e => {
     e.preventDefault();
 
+    if (getNumCharsOverLimit() > 0) {
+        modalTitle.textContent = 'Hold on!';
+        modalBody.textContent = `Please shorten your draft to (at most) ${maxBodyChars} characters.`;
+        modal.show();
+
+        return;
+    }
+
     // Disable the submit button until response
-    draftSubmitButton.disabled = true;    
+    draftSubmitButton.disabled = true;
 
     const draftHours = document.querySelector('input[name="draft-hours"]:checked');
     const hours = parseInt(draftHours.value);

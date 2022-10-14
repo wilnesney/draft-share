@@ -4,6 +4,8 @@
     --line-horizontal-color: #9DF1F7;
     --line-vertical-left-color: #F7B3AB;
     --line-vertical-right-color: #eee;
+    --comfortable-reading-width: 34em;
+    --indent: 50px;
 }
 
 body {
@@ -35,6 +37,18 @@ input[type="text"], input[type="password"] {
     flex-grow: 1;
 }
 
+.error-notice {
+    color: red;
+    font-weight: normal;
+}
+
+.ui-note {
+    color: #888;
+    font-size: 0.8rem;
+    font-style: italic;
+    font-weight: normal;
+}
+
 /* Navigation Bar */
 
 .navbar {
@@ -60,12 +74,13 @@ input[type="text"], input[type="password"] {
 .ql-container, #draft-editor p, #draft-viewer p {
     font-family: 'Merriweather', serif;
     line-height: 1.75;
-    text-indent: 50px;
+    text-indent: var(--indent);
 }
 
 .body-text p, #draft-viewer p {
     margin: 0 auto 1rem;
-    max-width: 34em;
+    max-width: var(--comfortable-reading-width);
+    text-indent: var(--indent);
 }
 
 .ql-toolbar.ql-snow, .ql-container.ql-snow, input {
@@ -77,19 +92,11 @@ input[type="text"], input[type="password"] {
 
 .editor-container {
     height: 25rem;
-    margin-bottom: 2rem;
-    padding-bottom: 43px;  /* Account for Quill overlap issue */
+    margin-bottom: 43px;  /* Account for Quill overlap issue */
 }
 
 legend {
     font-size: 1.25rem;
-}
-
-.ui-note {
-    color: #888;
-    font-size: 0.8rem;
-    font-style: italic;
-    font-weight: normal;
 }
 
 #submit-button {
@@ -98,6 +105,16 @@ legend {
 
 #title, #author {
     text-align: center;
+    margin: 1rem auto 1rem;
+    max-width: var(--comfortable-reading-width);
+}
+
+#author {
+    font-size: 1.25rem;
+}
+
+#title {
+    font-size: 1.5rem;
 }
 
 .input-unit {
@@ -105,6 +122,6 @@ legend {
     text-align: center;
 }
 
-.input-unit > label, .input-unit > span {
+.input-unit > label:first-child, .input-unit > span:first-child {
     font-weight: bold;
 }

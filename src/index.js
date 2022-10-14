@@ -28,15 +28,20 @@ app.use(express.static(publicDirectoryPath));
 
 // Automatically parse incoming JSON for our request handlers
 // (Doesn't handle bad JSON gracefully)
-app.use(express.json());  
+app.use(express.json({ limit: '100kb' }));  
 
 // Source for below: https://stackoverflow.com/questions/58134287/catch-error-for-bad-json-format-thrown-by-express-json-middleware
 app.use((err, req, res, next) => {
-    if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
-        logger.warn(err);
+    if (err.type === 'entity.parse.failed') {
+        logger.warn({ errorType: err.type });
         return res.status(400).send({ 'error': 'Your request was formatted incorrectly.' }); // Bad request
+    } else if (err.type === 'entity.too.large') {
+        logger.warn({ errorType: err.type, length: err.length, limit: err.limit });
+        return res.status(400).send({ 'error': 'Your request was too big.' })
     }
-    next();
+    logger.warn(err);
+    return res.status(500).send({ 'error': 'Something went wrong.' });
+    //next(err);
 });
 
 const draftToResponseObject = draft => {

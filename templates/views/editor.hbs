@@ -15,26 +15,30 @@
                             <div class="input-unit">
                                 <label for="draft-title">Title <span class="ui-note">(optional)</span></label>
                                 <br />
-                                <input id="draft-title" placeholder="Your Title Here..." type="text" autocomplete="off" />
+                                <input id="draft-title" placeholder="Your Title Here..." type="text" autocomplete="off" maxlength="150" />
                                 <br />
                             </div>
                             <div class="input-unit">
                                 <label for="draft-author">By <span class="ui-note">(optional)</span></label>
                                 <br />
-                                <input id="draft-author" placeholder="Your Name Here..." type="text" autocomplete="off" />
+                                <input id="draft-author" placeholder="Your Name Here..." type="text" autocomplete="off" maxlength="150" />
                                 <br />
                             </div>
                             
                         </div>
-                        <div class="input-unit col-lg-6 editor-container">
+                        <div class="input-unit col-lg-6">
                             <span>Draft Text</span>
-                            <div id="draft-editor"></div>
+                            <div class="editor-container">
+                                <div id="draft-editor"></div>
+                            </div>
+                            <span id="body-error-text" class="error-notice"></span>
                         </div>
+
                         <div class="col-lg-3">
                             <div class="input-unit">
                                 <label for="draft-password">Password to View Draft <span class="ui-note">(optional)</span></label>
                                 <br />
-                                <input id="draft-password" placeholder="ShareablePassword123" type="password" />
+                                <input id="draft-password" placeholder="ShareablePassword123" type="password" maxlength="25" />
                                 <br />
                             </div>
                             <p class="ui-note">
