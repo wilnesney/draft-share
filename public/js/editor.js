@@ -67,12 +67,24 @@ quill.on('text-change', (delta, oldDelta, source) => {
     }
 });
 
+const validate = () => {
+    const result = {};
+    if (getNumCharsOverLimit() > 0) {
+        result.error = `Please shorten your draft to (at most) ${maxBodyChars} characters.`;
+    } else if (quill.getText().trim().length < 1) {
+        result.error = 'Please add some text to your draft.';
+    }
+
+    return result;
+}
+
 draftForm.addEventListener('submit', e => {
     e.preventDefault();
 
-    if (getNumCharsOverLimit() > 0) {
+    const validateResult = validate();
+    if (validateResult.error) {
         modalTitle.textContent = 'Hold on!';
-        modalBody.textContent = `Please shorten your draft to (at most) ${maxBodyChars} characters.`;
+        modalBody.textContent = validateResult.error;
         modal.show();
 
         return;
