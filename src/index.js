@@ -3,8 +3,9 @@
 const path = require('path');
 const express = require('express');
 const hbs = require('hbs');
+const logger = require('pino')();
 const { QuillDeltaToHtmlConverter } = require('quill-delta-to-html');
-
+// Local requires
 require('./db/mongoose');
 const Draft = require('./models/draft');
 
@@ -32,8 +33,8 @@ app.use(express.json());
 // Source for below: https://stackoverflow.com/questions/58134287/catch-error-for-bad-json-format-thrown-by-express-json-middleware
 app.use((err, req, res, next) => {
     if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
-        console.error(err);
-        return res.status(400).send({ message: err.message }); // Bad request
+        logger.warn(err);
+        return res.status(400).send({ 'error': 'Your request was formatted incorrectly.' }); // Bad request
     }
     next();
 });
@@ -51,12 +52,20 @@ const draftToResponseObject = draft => {
     };
 }
 
+// Convenience function for logging basic request info.
+//TODO: May eventually want to move to pino-http or similar, but this is good enough for now.
+//TODO: Might also just want to make this a middleware.
+const logRequest = req => logger.info({ method: req.method, path: req.path, });
+
+const hasItem = item => (typeof(item) === 'string' && item.length > 0);
+
 // API
 app.post('/api/draft', async (req, res) => {
+    logRequest(req);
     try {
         if (!req.body.hours || req.body.hours < 1 || req.body.hours > 12) {
-
-            return res.status(400).send({'error': 'Your time was outside the allowed range.'});
+            logger.warn(`Invalid draft lifetime: "${req.body.hours}"`);
+            return res.status(400).send({'error': 'Requested time was invalid.'});
         }
 
         const expireAt = new Date();
@@ -72,18 +81,29 @@ app.post('/api/draft', async (req, res) => {
 
         await draft.save();
 
+        logger.info({ newDraftStats: { 
+            lifetime: req.body.hours, 
+            hasTitle: hasItem(req.body.title),
+            hasAuthor: hasItem(req.body.author),
+            hasPassword: hasItem(req.body.password),
+            // Content-Length isn't exactly what we want, 
+            // but it's faster than calculating actual body length
+            requestContentLength: req.headers['content-length'], 
+        } })
+
         const portString = process.env.IS_DEV ? `:${process.env.PORT}` : '';
         const path = `${req.protocol}://${req.hostname}${portString}/${draft.password ? 'private' : 'public'}/${draft._id}`;
 
         res.status(201).send({ path });
     } catch (e) {
-        console.log(e.message);
+        logger.error(e);
         res.status(500).send({'error': 'Sorry! Something went wrong. Please try again later.'});
     }
 });
 
 // Note: This is a POST because there's authentication involved.
 app.post('/api/private/:id', async (req, res) => {
+    logRequest(req);
     const _id = req.params.id;
     const password = req.body.password;
 
@@ -91,18 +111,20 @@ app.post('/api/private/:id', async (req, res) => {
         const draft = await Draft.findByCredentials(_id, password);
         if (!draft) {
             // Return 404 after 5-6 seconds
+            logger.warn(`Private draft "${_id}" not found or wrong password`);
             return setTimeout(() => res.status(404).send(), (5 + Math.random()) * 1000 )
         }
         res.send(draftToResponseObject(draft));
     } catch (e) {
-        console.error(e);
-        res.status(500).send();
+        logger.error(e);
+        res.status(500).send({'error': 'Sorry! Something went wrong. Please try again later.'});
     }
 })
 
 // Pages
 
 app.get('/', (req, res) => {
+    logRequest(req);
     res.render('editor', {
         siteName: 'Draft Share',
         title: 'Home',
@@ -113,19 +135,26 @@ app.get('/', (req, res) => {
 
 // Deliver a public (i.e., not password-protected) page.
 app.get('/public/:id', async (req, res) => {
+    logRequest(req);
     const _id = req.params.id;
 
     try {
         const draft = await Draft.findById(_id);
         // This is the public area--if there's an associated password, don't allow access!
         if (!draft || draft.password) {
+            if (!draft) {
+                logger.warn(`Public draft "${_id}" not found`);
+            } else {
+                logger.warn(`Attempt to view password-protected "${_id}" with public endpoint`);
+            }
+
             return res.status(404).render('404', {
                 siteName: 'Draft Share',
                 title: 'Oh, no!',
                 errorText: `Sorry! We couldn't find that page. The page you're looking for may have expired or the URL may be incorrect.`,
                 name: 'Dave Turka',
                 name: 'Dave Turka',
-        currentYear: new Date().getFullYear(),
+                currentYear: new Date().getFullYear(),
             })
         }
 
@@ -136,7 +165,7 @@ app.get('/public/:id', async (req, res) => {
             currentYear: new Date().getFullYear(),
         });
     } catch (e) {
-        console.error(e);
+        logger.error(e);
         res.status(500).send();
     }
 });
@@ -145,6 +174,7 @@ app.get('/public/:id', async (req, res) => {
 // Users must enter a password and make a fetch request to the /api for private
 // to get the data.
 app.get('/private/:id', (req, res) => {
+    logRequest(req);
     res.render('private-viewer', {
         siteName: 'Draft Share',
         name: 'Dave Turka',
@@ -153,6 +183,7 @@ app.get('/private/:id', (req, res) => {
 });
 
 app.get('/about', (req, res) => {
+    logRequest(req);
     res.render('about', {
         siteName: 'Draft Share',
         title: 'About',
@@ -163,6 +194,7 @@ app.get('/about', (req, res) => {
 
 /* Consider wiring this back up some day if there's appropriate content.
 app.get('/help', (req, res) => {
+    logRequest(req);
     res.render('help', {
         siteName: 'Draft Share',
         title: 'Help',
@@ -174,6 +206,7 @@ app.get('/help', (req, res) => {
 
 
 app.get('*', (req, res) => {
+    logRequest(req);
     res.render('404', {
         siteName: 'Draft Share',
         title: 'Oh, no!',
@@ -185,6 +218,6 @@ app.get('*', (req, res) => {
 
 //Note: Render.com handles https automatically.
 app.listen(process.env.PORT, () => {
-    console.log(`Server listening on port ${process.env.PORT}`);
+    logger.info(`Server listening on port ${process.env.PORT}`);
 })
     

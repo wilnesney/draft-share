@@ -24,6 +24,7 @@
     "hbs": "^4.2.0",
     "mongodb": "^4.10.0",
     "mongoose": "^6.6.3",
+    "pino": "^8.6.1",
     "quill-delta-to-html": "^0.12.1",
     "validator": "^13.7.0"
   }

@@ -63,8 +63,8 @@ input[type="text"], input[type="password"] {
     text-indent: 50px;
 }
 
-.body-text, #draft-viewer p {
-    margin: 0 auto;
+.body-text p, #draft-viewer p {
+    margin: 0 auto 1rem;
     max-width: 34em;
 }
 
