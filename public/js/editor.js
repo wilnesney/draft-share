@@ -50,6 +50,18 @@ quill.clipboard.addMatcher(Node.ELEMENT_NODE, (node, delta) => {
     return new Delta(ops)
 });
 
+// Quill adds unwanted whitespace (tab) if it sees an indent, so we remove that.
+quill.clipboard.addMatcher(Node.ELEMENT_NODE, (node, delta) => {
+    const style = node.style || {};
+
+    // Must counter: return new Delta().insert('\t').concat(delta);
+    if ((delta.ops?.[0]?.insert?.[0] === '\t') && (parseFloat(style.textIndent || 0) > 0)) {
+        const change = new Delta().delete(1);
+        return delta.compose(change);
+    }
+    return delta;
+})
+
 // If the value returned by this is positive, then the body text is too long.
 const getNumCharsOverLimit = () => {
     const text = quill.getText();
