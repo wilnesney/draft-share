@@ -153,11 +153,10 @@ app.get('/public/:id', async (req, res) => {
                 logger.warn(`Attempt to view password-protected "${_id}" with public endpoint`);
             }
 
-            return res.status(404).render('404', {
+            return res.status(404).render('error', {
                 siteName: 'Draft Share',
                 title: 'Oh, no!',
                 errorText: `Sorry! We couldn't find that page. The page you're looking for may have expired or the URL may be incorrect.`,
-                name: 'Dave Turka',
                 name: 'Dave Turka',
                 currentYear: new Date().getFullYear(),
             })
@@ -171,7 +170,13 @@ app.get('/public/:id', async (req, res) => {
         });
     } catch (e) {
         logger.error(e);
-        res.status(500).send();
+        res.status(500).render('error', {
+            siteName: 'Draft Share',
+            title: 'Oh, no!',
+            errorText: `Sorry! Something went wrong. Please try again later.`,
+            name: 'Dave Turka',
+            currentYear: new Date().getFullYear(),
+        })
     }
 });
 
@@ -212,7 +217,7 @@ app.get('/help', (req, res) => {
 
 app.get('*', (req, res) => {
     logRequest(req);
-    res.render('404', {
+    res.render('error', {
         siteName: 'Draft Share',
         title: 'Oh, no!',
         errorText: `Sorry! We couldn't find that page. The page you're looking for may have expired, the URL may be incorrect, or your password may be wrong.`,
