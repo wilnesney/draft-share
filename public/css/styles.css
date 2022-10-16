@@ -49,6 +49,16 @@ input[type="text"], input[type="password"] {
     font-weight: normal;
 }
 
+/* Modals */
+
+.modal-header {
+    border-bottom: var(--line-horizontal-color) 1px solid;
+}
+
+.modal-footer {
+    border-top: var(--line-horizontal-color) 1px solid;
+}
+
 /* Navigation Bar */
 
 .navbar {
@@ -124,4 +134,9 @@ legend {
 
 .input-unit > label:first-child, .input-unit > span:first-child {
     font-weight: bold;
+}
+
+.input-suboption {
+    margin-top: 0.55rem;
+    text-align: left;
 }

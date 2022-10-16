@@ -135,6 +135,7 @@ app.get('/', (req, res) => {
         title: 'Home',
         name: 'Dave Turka',
         currentYear: new Date().getFullYear(),
+        passwordPlaceholder: 'ShareablePassword123',
     })
 })
 
@@ -189,6 +190,7 @@ app.get('/private/:id', (req, res) => {
         siteName: 'Draft Share',
         name: 'Dave Turka',
         currentYear: new Date().getFullYear(),
+        passwordPlaceholder: '',
     });
 });
 

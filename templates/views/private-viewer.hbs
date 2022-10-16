@@ -19,7 +19,7 @@
                         <div id="auth-area">
                             <form id="auth-form">
                                 <p>Please enter the password to view this draft.</p>
-                                <input id="auth-password" type="password" />
+                                {{>passwordEntry}}
                             </form>
                         </div>
                     </div>
@@ -46,5 +46,6 @@
 
         {{>commonScripts}}
         <script src="/js/private-viewer.js"></script>
+        <script src="/js/password-visibility.js"></script>
     </body>
 </html>

@@ -6,7 +6,7 @@ const maxBodyChars = 65_000;
 const draftForm = document.getElementById('draft-form');
 const draftAuthor = document.getElementById('draft-author');
 const draftTitle = document.getElementById('draft-title');
-const draftPassword = document.getElementById('draft-password');
+const passwordEntry = document.getElementById('password-entry');
 const draftSubmitButton = document.getElementById('draft-submit-button');
 
 const draftEditor = document.getElementById('draft-editor');
@@ -112,7 +112,7 @@ draftForm.addEventListener('submit', e => {
         title: draftTitle.value,
         author: draftAuthor.value,
         hours,
-        password: draftPassword.value,
+        password: passwordEntry.value,
         body: quill.getContents(),
     };
 

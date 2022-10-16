@@ -2,7 +2,6 @@
 <html lang="en">
     <head>
         <title>{{title}} | {{siteName}}</title>
-        <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
         {{>commonHead}}
     </head>
     <body>
@@ -36,11 +35,11 @@
 
                         <div class="col-lg-3">
                             <div class="input-unit">
-                                <label for="draft-password">Password to View Draft <span class="ui-note">(optional)</span></label>
+                                <label for="password-entry">Password to View Draft <span class="ui-note">(optional)</span></label>
                                 <br />
-                                <input id="draft-password" placeholder="ShareablePassword123" type="password" maxlength="25" />
-                                <br />
+                                {{>passwordEntry}}
                             </div>
+                            
                             <p class="ui-note">
                                 If you password-protect your draft, 
                                 you'll need to share the password with everyone you want to view your work.
@@ -86,5 +85,6 @@
         <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
         <script src="https://kit.fontawesome.com/1669a0867e.js" crossorigin="anonymous"></script>
         <script src="/js/editor.js"></script>
+        <script src="/js/password-visibility.js"></script>
     </body>
 </html>

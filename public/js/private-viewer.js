@@ -1,5 +1,5 @@
 const authForm = document.getElementById('auth-form');
-const authPassword = document.getElementById('auth-password');
+const passwordEntry = document.getElementById('password-entry');
 
 // Modal
 const options = {};
@@ -24,8 +24,8 @@ authForm.addEventListener('submit', e => {
     }
     id = id.substring(id.lastIndexOf('/') + 1);
 
-    const password = authPassword.value;
-    authPassword.value = '';
+    const password = passwordEntry.value;
+    passwordEntry.value = '';
 
     fetch(`/api/private/${id}`, {
         method: 'POST',
