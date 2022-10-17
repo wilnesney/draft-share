@@ -11,11 +11,15 @@ const draftSubmitButton = document.getElementById('draft-submit-button');
 
 const draftEditor = document.getElementById('draft-editor');
 
-// Modal
+// General-Use Modal
 const options = {};
 const modal = new bootstrap.Modal('#modal', options);
 const modalTitle = document.getElementById('modal-title');
 const modalBody = document.getElementById('modal-body');
+
+// Page Load Indicator "Modal"
+const fullPageSpinner = document.getElementById('full-page-spinner');
+const fullPageSpinnerModal = new bootstrap.Modal(fullPageSpinner, {}); 
 
 // Other UI
 const bodyErrorText = document.getElementById('body-error-text');
@@ -93,6 +97,8 @@ const validate = () => {
 draftForm.addEventListener('submit', e => {
     e.preventDefault();
 
+    setPasswordShouldBeVisible(false); // Hide password on submit
+
     const validateResult = validate();
     if (validateResult.error) {
         modalTitle.textContent = 'Hold on!';
@@ -104,39 +110,50 @@ draftForm.addEventListener('submit', e => {
 
     // Disable the submit button until response
     draftSubmitButton.disabled = true;
-
-    const draftHours = document.querySelector('input[name="draft-hours"]:checked');
-    const hours = parseInt(draftHours.value);
-
-    const draftData = {
-        title: draftTitle.value,
-        author: draftAuthor.value,
-        hours,
-        password: passwordEntry.value,
-        body: quill.getContents(),
-    };
-
-    fetch(`/api/draft`, {
-        method: 'POST',
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(draftData),
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.error) {
-            throw new Error(data.error);
-        }
-        modalTitle.textContent = 'Success!';
-        modalBody.innerHTML = `Your draft is ready at <br /><a target="_blank" href="${data.path}">${data.path}</a><br/>It will expire in ${hours} hours.`;
-    })
-    .catch(err => {
-        modalTitle.textContent = 'Something went wrong :(';
-        modalBody.textContent = err;
-    })
-    .finally(() => {
+    // Hide loading spinner modal and show the message-bearing modal
+    fullPageSpinner.addEventListener('hidden.bs.modal', event => {
         modal.show();
-        draftSubmitButton.disabled = false;
-        passwordEntry.value = '';
-        setPasswordShouldBeVisible(false);
     });
-})
+    /* If we try to hide the loading spinner modal before it finishes showing (i.e., fading in),
+       the hide will fail. So, we make sure everything happens *after* the modal
+       finishes showing. */
+    fullPageSpinner.addEventListener('shown.bs.modal', event => {
+        const draftHours = document.querySelector('input[name="draft-hours"]:checked');
+        const hours = parseInt(draftHours.value);
+
+        const draftData = {
+            title: draftTitle.value,
+            author: draftAuthor.value,
+            hours,
+            password: passwordEntry.value,
+            body: quill.getContents(),
+        };
+        passwordEntry.value = '';   // Clear password as soon as we're done with it
+
+        fetch(`/api/draft`, {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(draftData),
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.error) {
+                throw new Error(data.error);
+            }
+            modalTitle.textContent = 'Success!';
+            modalBody.innerHTML = `Your draft is ready at <br /><a target="_blank" href="${data.path}">${data.path}</a><br/>It will expire in ${hours} hours.`;
+        })
+        .catch(err => {
+            modalTitle.textContent = 'Something went wrong :(';
+            modalBody.textContent = err;
+        })
+        .finally(() => {
+            fullPageSpinnerModal.hide();    
+
+            draftSubmitButton.disabled = false;
+        });
+    });
+
+    // With the listener in place, we can safely show our loading indicator.
+    fullPageSpinnerModal.show();
+});
