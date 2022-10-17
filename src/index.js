@@ -1,6 +1,7 @@
 //TODO: https://expressjs.com/en/advanced/best-practice-security.html
 
 const path = require('path');
+const compression = require('compression');
 const express = require('express');
 const hbs = require('hbs');
 const logger = require('pino')();
@@ -16,7 +17,8 @@ const publicDirectoryPath = path.join(__dirname, '../public');
 const viewsPath = path.join(__dirname, '../templates/views'); // Default is /views
 const partialsPath = path.join(__dirname, '../templates/partials');
 
-//TODO: Gzip
+// Gzip
+app.use(compression());
 
 // Set up handlebars engine and views location (for dynamic content/templates).
 app.set('view engine', 'hbs');
