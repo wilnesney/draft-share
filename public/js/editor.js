@@ -136,6 +136,7 @@ draftForm.addEventListener('submit', e => {
     .finally(() => {
         modal.show();
         draftSubmitButton.disabled = false;
+        passwordEntry.value = '';
         setPasswordShouldBeVisible(false);
     });
 })

@@ -4,6 +4,7 @@ const passwordVisibleCheckbox = document.getElementById('password-visible');
 passwordVisibleCheckbox.checked = false;
 
 const setPasswordShouldBeVisible = shouldBeVisible => {
+    passwordVisibleCheckbox.checked = shouldBeVisible;
     if (shouldBeVisible) {
         passwordEntry.type = 'text';
     } else {
