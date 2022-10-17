@@ -4,6 +4,7 @@ const path = require('path');
 const compression = require('compression');
 const express = require('express');
 const hbs = require('hbs');
+const helmet = require('helmet');
 const logger = require('pino')();
 const { QuillDeltaToHtmlConverter } = require('quill-delta-to-html');
 // Local requires
@@ -19,6 +20,20 @@ const partialsPath = path.join(__dirname, '../templates/partials');
 
 // Gzip
 app.use(compression());
+
+// Security
+app.use(
+    helmet({
+        contentSecurityPolicy: {
+            directives: {
+                "font-src": ["'self'", "https://fonts.googleapis.com", "https://fonts.gstatic.com"],
+                "script-src": ["'self'", "https://cdn.jsdelivr.net", "https://cdn.quilljs.com"],
+                "style-src": ["'self'", "https://fonts.googleapis.com", "https://cdn.quilljs.com", "https://cdn.jsdelivr.net", "https: 'unsafe-inline'"],
+            }
+        },
+        //crossOriginEmbedderPolicy: false,
+    })
+  );
 
 // Set up handlebars engine and views location (for dynamic content/templates).
 app.set('view engine', 'hbs');

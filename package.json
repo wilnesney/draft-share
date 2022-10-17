@@ -23,6 +23,7 @@
     "compression": "^1.7.4",
     "express": "^4.18.1",
     "hbs": "^4.2.0",
+    "helmet": "^6.0.0",
     "mongodb": "^4.10.0",
     "mongoose": "^6.6.3",
     "pino": "^8.6.1",
