@@ -116,9 +116,33 @@ app.post('/api/private/:id', async (req, res) => {
         const draft = await Draft.findByCredentials(_id, password);
         if (!draft) {
             // Return 404 after 5-6 seconds
-            logger.warn(`Private draft "${_id}" not found or wrong password`);
-            return setTimeout(() => res.status(404).send(), (5 + Math.random()) * 1000 )
+            const error = `Private draft "${_id}" not found or wrong password`;
+            logger.warn(error);
+            return setTimeout(() => res.status(404).send({ error }), (5 + Math.random()) * 1000 )
         }
+        res.send(draftToResponseObject(draft));
+    } catch (e) {
+        logger.error(e);
+        res.status(500).send({'error': 'Sorry! Something went wrong. Please try again later.'});
+    }
+})
+
+app.get('/api/public/:id', async (req, res) => {
+    logRequest(req);
+    const _id = req.params.id;
+
+    try {
+        const draft = await Draft.findById(_id);
+        // This is the public area--if there's an associated password, don't allow access!
+        if (!draft || draft.password) {
+            if (!draft) {
+                logger.warn(`Public draft "${_id}" not found`);
+            } else {
+                logger.warn(`Attempt to view password-protected "${_id}" with public endpoint`);
+            }
+            return res.status(404).send({ 'error': 'Draft not found.' });
+        }
+
         res.send(draftToResponseObject(draft));
     } catch (e) {
         logger.error(e);
@@ -139,49 +163,20 @@ app.get('/', (req, res) => {
     })
 })
 
-// Deliver a public (i.e., not password-protected) page.
+// Just serve the unpopulated page.
+// The page will make a fetch request to the /api for public to get the data.
 app.get('/public/:id', async (req, res) => {
     logRequest(req);
     const _id = req.params.id;
 
-    try {
-        const draft = await Draft.findById(_id);
-        // This is the public area--if there's an associated password, don't allow access!
-        if (!draft || draft.password) {
-            if (!draft) {
-                logger.warn(`Public draft "${_id}" not found`);
-            } else {
-                logger.warn(`Attempt to view password-protected "${_id}" with public endpoint`);
-            }
-
-            return res.status(404).render('error', {
-                siteName: 'Draft Share',
-                title: 'Oh, no!',
-                errorText: `Sorry! We couldn't find that page. The page you're looking for may have expired or the URL may be incorrect.`,
-                name: 'Dave Turka',
-                currentYear: new Date().getFullYear(),
-            })
-        }
-
-        res.render('public-viewer', {
-            ...draftToResponseObject(draft),
-            siteName: 'Draft Share',
-            name: 'Dave Turka',
-            currentYear: new Date().getFullYear(),
-        });
-    } catch (e) {
-        logger.error(e);
-        res.status(500).render('error', {
-            siteName: 'Draft Share',
-            title: 'Oh, no!',
-            errorText: `Sorry! Something went wrong. Please try again later.`,
-            name: 'Dave Turka',
-            currentYear: new Date().getFullYear(),
-        })
-    }
+    res.render('public-viewer', {
+        siteName: 'Draft Share',
+        name: 'Dave Turka',
+        currentYear: new Date().getFullYear(),
+    });
 });
 
-// For private pages, we just serve the unpopulate page.
+// Just serve the unpopulated page.
 // Users must enter a password and make a fetch request to the /api for private
 // to get the data.
 app.get('/private/:id', (req, res) => {

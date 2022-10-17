@@ -8,14 +8,14 @@
     <body>
         <div class="main-content">
             {{>header}}
-
-            <div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal-title">
+            {{>errorModal}}
+            <div class="modal fade" id="password-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="password-modal-title">
                 <div class="modal-dialog">
                     <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="modal-title">Password</h1>
+                        <h1 class="modal-title fs-5" id="password-modal-title">Password</h1>
                     </div>
-                    <div class="modal-body" id="modal-body">
+                    <div class="modal-body" id="password-modal-body">
                         <div id="auth-area">
                             <form id="auth-form">
                                 <p>Please enter the password to view this draft.</p>
@@ -30,21 +30,12 @@
                 </div>
             </div>
             
-            <div id="draft-area">
-                <h1 id="title"></h1>
-                <h2 id="author"></h2>
-                <div id="draft-viewer">
-                    <div class="d-flex justify-content-center">
-                        <div class="spinner-border" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                    </div>
-                </div> 
-            </div>
+            {{>draftViewerWithLoading}}
         </div>        
         {{>footer}}
 
         {{>commonScripts}}
+        <script src="/js/draft-loader.js"></script>
         <script src="/js/private-viewer.js"></script>
         <script src="/js/password-visibility.js"></script>
     </body>
