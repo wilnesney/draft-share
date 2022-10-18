@@ -67,11 +67,11 @@ svg {
     border-top: var(--line-horizontal-color) 1px solid;
 }
 
-/* Navigation Bar */
+/* Navigation Bar & Header */
 
 .navbar {
     border-bottom: var(--line-horizontal-color) 1px solid;
-    margin-bottom: 2rem;
+    margin-bottom: 0.5rem;
 }
 
 .navbar-brand {
@@ -85,6 +85,16 @@ svg {
 
 .nav-link {
     font-size: 1.2rem;
+}
+
+.site-purpose-line {
+    color: #888;
+    display: block;
+    font-size: 0.8rem;
+    font-style: italic;
+    font-weight: normal;
+    padding-bottom: 1.75rem;
+    margin-left: 0.75rem;
 }
 
 /* Editing Form & Viewer */
