@@ -30,6 +30,10 @@ input[type="text"], input[type="password"] {
     width: 100%;
 }
 
+svg {
+    vertical-align: -0.1rem;    /* Compensate for Reboot/Bootstrap conflict */
+}
+
 /* The following (along with activating flexbox) is used to put 
     everything but our footer in something that takes up all the page space,
     so our footer sticks to the bottom of the page. */
@@ -47,6 +51,10 @@ input[type="text"], input[type="password"] {
     font-size: 0.8rem;
     font-style: italic;
     font-weight: normal;
+}
+
+.copy-button-container {
+    margin: 0.5rem 0;
 }
 
 /* Modals */
@@ -139,4 +147,8 @@ legend {
 .input-suboption {
     margin-top: 0.55rem;
     text-align: left;
+}
+
+.modal-footer button {
+    margin: 0.55rem 0;  /* Allow room for toasts to come in without changing container's size */
 }

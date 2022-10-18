@@ -11,11 +11,17 @@ const draftSubmitButton = document.getElementById('draft-submit-button');
 
 const draftEditor = document.getElementById('draft-editor');
 
-// General-Use Modal
-const options = {};
-const modal = new bootstrap.Modal('#modal', options);
+// Main Messaging Modal
+const modal = new bootstrap.Modal('#modal', {});
 const modalTitle = document.getElementById('modal-title');
-const modalBody = document.getElementById('modal-body');
+const modalSuccessMessage = document.getElementById('modal-success-message');
+const modalErrorMessage = document.getElementById('modal-error-message');
+const modalDraftLink = document.getElementById('modal-draft-link');
+const modalCopyButton = document.getElementById('modal-copy-button');
+const numHoursSpan = document.getElementById('num-hours-span');
+const copyResponseToastElement = document.getElementById('copy-response-toast');
+const copyResponseToast = new bootstrap.Toast(copyResponseToastElement, {});
+const copyResponseToastBody = document.getElementById('copy-response-toast-body');
 
 // Page Load Indicator "Modal"
 const fullPageSpinner = document.getElementById('full-page-spinner');
@@ -94,6 +100,23 @@ const validate = () => {
     return result;
 }
 
+modalCopyButton.addEventListener('click', e => {
+    const url = modalDraftLink.textContent;
+    navigator.clipboard.writeText(url).then(
+        () => {
+            // On copy success
+            copyResponseToastBody.textContent = 'Copied to clipboard!';
+            copyResponseToast.show();
+        },
+        () => {
+            // On copy failure
+            copyResponseToastBody.textContent = "Oops! The copy didn't work. Instead, you can highlight and then copy the link.";
+            modalCopyButton.style.display = 'none'; // Might as well hide this button, since it doesn't seem to work
+            copyResponseToast.show();
+        }
+    )
+})
+
 draftForm.addEventListener('submit', e => {
     e.preventDefault();
 
@@ -102,7 +125,9 @@ draftForm.addEventListener('submit', e => {
     const validateResult = validate();
     if (validateResult.error) {
         modalTitle.textContent = 'Hold on!';
-        modalBody.textContent = validateResult.error;
+        modalErrorMessage.textContent = validateResult.error;
+        modalErrorMessage.style.display = 'block';
+        modalSuccessMessage.style.display = 'none';
         modal.show();
 
         return;
@@ -141,11 +166,17 @@ draftForm.addEventListener('submit', e => {
                 throw new Error(data.error);
             }
             modalTitle.textContent = 'Success!';
-            modalBody.innerHTML = `Your draft is ready at <br /><a target="_blank" href="${data.path}">${data.path}</a><br/>It will expire in ${hours} hours.`;
+            modalDraftLink.href = data.path;
+            modalDraftLink.textContent = data.path;
+            numHoursSpan.textContent = hours;
+            modalErrorMessage.style.display = 'none';
+            modalSuccessMessage.style.display = 'block';
         })
         .catch(err => {
             modalTitle.textContent = 'Something went wrong :(';
-            modalBody.textContent = err;
+            modalErrorMessage.textContent = err;
+            modalErrorMessage.style.display = 'block';
+            modalSuccessMessage.style.display = 'none';
         })
         .finally(() => {
             fullPageSpinnerModal.hide();    

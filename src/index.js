@@ -7,7 +7,7 @@ const hbs = require('hbs');
 const helmet = require('helmet');
 const logger = require('pino')();
 const { QuillDeltaToHtmlConverter } = require('quill-delta-to-html');
-// Local requires
+// Local imports
 require('./db/mongoose');
 const Draft = require('./models/draft');
 
@@ -31,7 +31,6 @@ app.use(
                 "style-src": ["'self'", "https://fonts.googleapis.com", "https://cdn.quilljs.com", "https://cdn.jsdelivr.net", "https: 'unsafe-inline'"],
             }
         },
-        //crossOriginEmbedderPolicy: false,
     })
   );
 
@@ -171,6 +170,7 @@ app.get('/api/public/:id', async (req, res) => {
 
 app.get('/', (req, res) => {
     logRequest(req);
+    
     res.render('editor', {
         siteName: 'Draft Share',
         title: 'Home',
@@ -184,7 +184,6 @@ app.get('/', (req, res) => {
 // The page will make a fetch request to the /api for public to get the data.
 app.get('/public/:id', async (req, res) => {
     logRequest(req);
-    const _id = req.params.id;
 
     res.render('public-viewer', {
         siteName: 'Draft Share',
@@ -198,6 +197,7 @@ app.get('/public/:id', async (req, res) => {
 // to get the data.
 app.get('/private/:id', (req, res) => {
     logRequest(req);
+
     res.render('private-viewer', {
         siteName: 'Draft Share',
         name: 'Dave Turka',
@@ -208,6 +208,7 @@ app.get('/private/:id', (req, res) => {
 
 app.get('/about', (req, res) => {
     logRequest(req);
+
     res.render('about', {
         siteName: 'Draft Share',
         title: 'About',
@@ -231,6 +232,7 @@ app.get('/help', (req, res) => {
 
 app.get('*', (req, res) => {
     logRequest(req);
+
     res.render('error', {
         siteName: 'Draft Share',
         title: 'Oh, no!',
