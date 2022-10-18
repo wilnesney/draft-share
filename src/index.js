@@ -81,6 +81,10 @@ const logRequest = req => logger.info({ method: req.method, path: req.path, });
 const hasItem = item => (typeof(item) === 'string' && item.length > 0);
 
 // API
+app.get('/api/ping', (req, res) => {
+    res.send({'response': 'pong'});     // Just here for heartbeat/health checks
+});
+
 app.post('/api/draft', async (req, res) => {
     logRequest(req);
     try {
